@@ -1,6 +1,6 @@
 {
-  "name": "parquetjs",
-  "description": "fully asynchronous, pure JavaScript implementation of the Parquet file format",
+  "name": "@jeffbski/parquetjs",
+  "description": "fully asynchronous, pure JavaScript implementation of the Parquet file format (optional lzo compression)",
   "main": "parquet.js",
   "version": "0.10.1",
   "homepage": "https://github.com/ironSource/parquetjs",
