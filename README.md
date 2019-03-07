@@ -1,15 +1,20 @@
 # parquet.js
 
-fully asynchronous, pure node.js implementation of the Parquet file format
+fully asynchronous, pure node.js implementation of the Parquet file format (pure JS fork of parquetjs)
+Minor fork of [parquetjs](https://github.com/ironSource/parquetjs) which removes lzo compression/decompression to eliminate need for a binary build for dependency lzo. This fork restores this package to being a pure JS implementation. The core of the changes are in this [commit bcc8b5](https://github.com/jeffbski/parquetjs/commit/bcc8b57f1f0aed00e5436bd678b4b889b9a96df0).
 
-[![Build Status](https://travis-ci.org/ironSource/parquetjs.png?branch=master)](http://travis-ci.org/ironSource/parquetjs)
+Once the original `parquetjs` package provides a way to make lzo optional then this package can be retired. 
+
+[![Build Status](https://travis-ci.org/jeffbski/parquetjs.svg?branch=master)](https://travis-ci.org/jeffbski/parquetjs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![npm version](https://badge.fury.io/js/parquetjs.svg)](https://badge.fury.io/js/parquetjs)
+[![npm version](https://badge.fury.io/js/%40jeffbski%2Fparquetjs.svg)](https://badge.fury.io/js/%40jeffbski%2Fparquetjs)
 
 This package contains a fully asynchronous, pure JavaScript implementation of
 the [Parquet](https://parquet.apache.org/) file format. The implementation conforms with the
 [Parquet specification](https://github.com/apache/parquet-format) and is tested
 for compatibility with Apache's Java [reference implementation](https://github.com/apache/parquet-mr).
+
+This fork removed the lzo compression/decompression capability since it required on a compiled package `lzo`.
 
 **What is Parquet?**: Parquet is a column-oriented file format; it allows you to
 write a large amount of structured data to a file, compress it and then read parts
@@ -22,7 +27,7 @@ Installation
 To use parquet.js with node.js, install it using npm:
 
 ```
-  $ npm install parquetjs
+  $ npm install @jeffbski/parquetjs
 ```
 
 _parquet.js requires node.js >= 7.6.0_
@@ -35,7 +40,7 @@ Once you have installed the parquet.js library, you can import it as a single
 module:
 
 ``` js
-var parquet = require('parquetjs');
+var parquet = require('@jeffbski/parquetjs');
 ```
 
 Parquet files have a strict schema, similar to tables in a SQL database. So,
@@ -51,6 +56,17 @@ var schema = new parquet.ParquetSchema({
   date: { type: 'TIMESTAMP_MILLIS' },
   in_stock: { type: 'BOOLEAN' }
 });
+```
+
+Writing using a Node.js Transform Stream
+----------------------------------------
+
+```js
+var parquetTransform = new parquet.ParquetTransformer(schema);
+// pipe or use pump to connect the read, transform, and write streams
+rstream
+  .pipe(parquetTransform)
+  .pipe(wstream);
 ```
 
 Note that the Parquet schema supports nesting, so you can store complex, arbitrarily
@@ -143,6 +159,24 @@ bits required to store the largest value of the field.
 ``` js
 var schema = new parquet.ParquetSchema({
   age: { type: 'UINT_32', encoding: 'RLE', bitWidth: 7 },
+});
+```
+
+Compression
+-----------
+
+@jeffbski/parquetjs supports the following compression types:
+
+ - UNCOMPRESSED - this is the default
+ - GZIP
+ - SNAPPY
+ - BROTLI
+
+LZO compression is not supported in @jeffbski/parquetjs since it requires the lzo package which builds a binary node.js extension. To use LZO use the original `parquetjs` package.
+
+```js
+var schema = new parquet.ParquetSchema({
+  age: { type: 'UINT_32', compression: 'SNAPPY' }
 });
 ```
 
@@ -293,15 +327,13 @@ Depdendencies
 Parquet uses [thrift](https://thrift.apache.org/) to encode the schema and other
 metadata, but the actual data does not use thrift.
 
-Contributions
--------------
-Please make sure you sign the [contributor license agreement](https://github.com/ironSource/cla) in order for us to be able to accept your contribution. We thank you very much!
-
 
 License
 -------
+MIT
 
-Copyright (c) 2017 ironSource Ltd.
+
+Copyright (c) 2019 parquetjs and @jeffbski/parquetjs contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in the

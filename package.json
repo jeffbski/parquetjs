@@ -1,18 +1,22 @@
 {
-  "name": "parquetjs",
-  "description": "fully asynchronous, pure JavaScript implementation of the Parquet file format",
+  "name": "@jeffbski/parquetjs",
+  "description": "fully asynchronous, pure JavaScript implementation of the Parquet file format (pure JS, does not include lzo which requires binary build)",
   "main": "parquet.js",
-  "version": "0.8.0",
-  "homepage": "https://github.com/ironSource/parquetjs",
-  "author": "ironSource <npm@ironsrc.com>",
+  "version": "0.10.1",
+  "homepage": "https://github.com/jeffbski/parquetjs",
+  "contributors": [
+    "ironSource <npm@ironsrc.com>",
+    "Jeff Barczewski <info@codewinds.com>"
+  ],
   "license": "MIT",
   "keywords": [
     "dremel",
-    "parquet"
+    "parquet",
+    "purejs"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/ironSource/parquetjs.git"
+    "url": "git://github.com/jeffbski/parquetjs.git"
   },
   "dependencies": {
     "brotli": "^1.3.0",
