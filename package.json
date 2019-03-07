@@ -2,7 +2,7 @@
   "name": "@jeffbski/parquetjs",
   "description": "fully asynchronous, pure JavaScript implementation of the Parquet file format (pure JS, does not include lzo which requires binary build)",
   "main": "parquet.js",
-  "version": "0.10.1",
+  "version": "0.10.2-beta.5",
   "homepage": "https://github.com/jeffbski/parquetjs",
   "contributors": [
     "ironSource <npm@ironsrc.com>",
