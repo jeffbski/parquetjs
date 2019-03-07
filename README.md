@@ -1,6 +1,10 @@
 # parquet.js
 
-fully asynchronous, pure node.js implementation of the Parquet file format
+fully asynchronous, pure node.js implementation of the Parquet file format (minor fork of parquetjs with optional dependency lzo)
+
+This fork simply makes lzo an optional dependency which if is not available or failed to build (since it has a binary extension) then it will continue to work as long as lzo compression/decompression is not used. lzo is hidden behind a function so it is not required unless needed. These minor changes are encapsulated in [commit ac55b97](https://github.com/jeffbski/parquetjs/commit/ac55b97a7c6ee352f9df9d1e192b5fe563290032).
+
+This scoped package can be deprecated once the original `parquetjs` package provides an optional (pure JS) approach, like possibly merging [PR #80](https://github.com/ironSource/parquetjs/pull/80)
 
 [![Build Status](https://travis-ci.org/ironSource/parquetjs.png?branch=master)](http://travis-ci.org/ironSource/parquetjs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
@@ -10,6 +14,8 @@ This package contains a fully asynchronous, pure JavaScript implementation of
 the [Parquet](https://parquet.apache.org/) file format. The implementation conforms with the
 [Parquet specification](https://github.com/apache/parquet-format) and is tested
 for compatibility with Apache's Java [reference implementation](https://github.com/apache/parquet-mr).
+
+Note: That lzo functionality (via lzo package) requires a node.js extension to be compiled, but this fork allows that to be optional so the plugin can be used even if lzo cannot be built as long as lzo is not used by the code.
 
 **What is Parquet?**: Parquet is a column-oriented file format; it allows you to
 write a large amount of structured data to a file, compress it and then read parts
@@ -22,7 +28,7 @@ Installation
 To use parquet.js with node.js, install it using npm:
 
 ```
-  $ npm install parquetjs
+  $ npm install @jeffbski/parquetjs
 ```
 
 _parquet.js requires node.js >= 7.6.0_
@@ -35,7 +41,7 @@ Once you have installed the parquet.js library, you can import it as a single
 module:
 
 ``` js
-var parquet = require('parquetjs');
+var parquet = require('@jeffbski/parquetjs');
 ```
 
 Parquet files have a strict schema, similar to tables in a SQL database. So,
