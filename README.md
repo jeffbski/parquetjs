@@ -14,7 +14,7 @@ the [Parquet](https://parquet.apache.org/) file format. The implementation confo
 [Parquet specification](https://github.com/apache/parquet-format) and is tested
 for compatibility with Apache's Java [reference implementation](https://github.com/apache/parquet-mr).
 
-This fork removed the lzo compression/decompression capability since it required on a compiled package `lzo`.
+This fork removed the lzo compression/decompression capability since it required on a compiled package `lzo`. Brotli is also removed since it was causing hanging test in jest.
 
 **What is Parquet?**: Parquet is a column-oriented file format; it allows you to
 write a large amount of structured data to a file, compress it and then read parts
@@ -170,9 +170,10 @@ Compression
  - UNCOMPRESSED - this is the default
  - GZIP
  - SNAPPY
- - BROTLI
 
 LZO compression is not supported in @jeffbski/parquetjs since it requires the lzo package which builds a binary node.js extension. To use LZO use the original `parquetjs` package.
+
+BROTLI compression is also removed since it was causing hang in jest tests.
 
 ```js
 var schema = new parquet.ParquetSchema({
